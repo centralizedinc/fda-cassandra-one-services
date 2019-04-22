@@ -18,6 +18,10 @@ var routers = {
         code: 'CAS',
         name: 'Case'
     },
+    DOC: {
+        code: 'DOC',
+        name: 'Docket'
+    },
     ADMIN: {
         code: 'ADM',
         name: 'Admin'
