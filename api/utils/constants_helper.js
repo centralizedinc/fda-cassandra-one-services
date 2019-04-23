@@ -1,8 +1,7 @@
 "use strict";
 
-var mongodb_uri = 'mongodb://heroku_hvcpp3k7:ro5qpefdsf05nbv4qlb14si43r@ds123532.mlab.com:23532/heroku_hvcpp3k7'
+var mongodb_uri = 'mongodb://heroku_hc28s3rg:hafrpu7cd71b8rs822co63vcri@ds145786.mlab.com:45786/heroku_hc28s3rg'
 
 module.exports = {
-    mongodb_uri: process.env.MONGODB_URI || mongodb_uri,
-    home_url: "https://fda-services.herokuapp.com/"
+    mongodb_uri: process.env.MONGODB_URI || mongodb_uri
 }
