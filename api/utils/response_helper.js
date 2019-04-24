@@ -22,6 +22,10 @@ var routers = {
         code: 'DOC',
         name: 'Docket'
     },
+    REF: {
+        code: 'REF',
+        name: 'Reference'
+    },
     ADMIN: {
         code: 'ADM',
         name: 'Admin'
@@ -78,46 +82,46 @@ function sendResponse(req, res, model, err, route_code, name) {
     // }
 
     // AuditDao.log(log, (er, logs) => {
-    //     if (err) { // Errors
-    //         if (err.code === 11000) { // Unique Fields
-    //             res.status(200).json({
-    //                 success: false,
-    //                 code: route_code,
-    //                 errors: [{
-    //                     field: name,
-    //                     message: name + " already exist !"
-    //                 }]
-    //             })
-    //         } else if (err.errors) { // Required Fields 
-    //             var error_fields = Object.keys(err.errors);
-    //             var errors = [];
-    //             error_fields.forEach(field => {
-    //                 errors.push({
-    //                     message: err.errors[field].message,
-    //                     field: field
-    //                 })
-    //             });
-    //             res.status(200).json({
-    //                 success: false,
-    //                 code: route_code,
-    //                 errors: errors
-    //             })
-    //         } else if (err.local_errors) { // Computed Fields
-    //             res.status(200).json({
-    //                 success: false,
-    //                 code: route_code,
-    //                 errors: err.local_errors
-    //             });
-    //         } else { // Internal Server Error
-    //             res.status(500).json(err)
-    //         }
-    //     } else { // Success 
-    //         res.status(200).json({
-    //             success: true,
-    //             code: route_code,
-    //             model: model
-    //         });
-    //     }
+        if (err) { // Errors
+            if (err.code === 11000) { // Unique Fields
+                res.status(200).json({
+                    success: false,
+                    code: route_code,
+                    errors: [{
+                        field: name,
+                        message: name + " already exist !"
+                    }]
+                })
+            } else if (err.errors) { // Required Fields 
+                var error_fields = Object.keys(err.errors);
+                var errors = [];
+                error_fields.forEach(field => {
+                    errors.push({
+                        message: err.errors[field].message,
+                        field: field
+                    })
+                });
+                res.status(200).json({
+                    success: false,
+                    code: route_code,
+                    errors: errors
+                })
+            } else if (err.local_errors) { // Computed Fields
+                res.status(200).json({
+                    success: false,
+                    code: route_code,
+                    errors: err.local_errors
+                });
+            } else { // Internal Server Error
+                res.status(500).json(err)
+            }
+        } else { // Success 
+            res.status(200).json({
+                success: true,
+                code: route_code,
+                model: model
+            });
+        }
     // })
 }
 
