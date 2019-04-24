@@ -30,7 +30,27 @@ var schema = new mongoose.Schema({
     establishment_address_province: String,
     establishment_address_city: String,
     establishment_address: String,
-    documents: File
+    documents: File,
+
+    // next page
+
+    date_decked: Date,
+    IS_evaluator: String,
+    date_evaluated: Date,
+    date_forwarded_to_SL: Date,
+    action_taken_by_SL: String,
+    docket_number: 0,
+    date_docketed: Date,
+    date_issued: Date,
+    products_involved: String,
+    laws_violated: String,
+    lto: String,
+    lto_number: String,
+    lto_validity: Date,
+    center_involved: String,
+    violation_product: String,
+    violation_qualified_personnel: String,
+    violation_others: String
 })
 
 module.exports = mongoose.model("dockets", schema);
