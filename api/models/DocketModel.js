@@ -50,7 +50,58 @@ var schema = new mongoose.Schema({
     center_involved: String,
     violation_product: String,
     violation_qualified_personnel: String,
-    violation_others: String
+    violation_others: String,
+
+    // docket status
+    status: 0,
+    // evaluation = 0
+    // review = 1
+    // approval = 2
+
+    // EVALUATION
+    evaluation: [{
+        decking: String,
+        IS_evaluator: String,
+        date_evaluated: Date,
+        action_taken: String,
+        if_legal_order: String,
+        reason_for_remanding: String
+    }],
+
+    // REVIEW OF SO
+    review: [{
+        date_forwarded_to_SL: Date,
+        action_taken_by_SL: String,
+        comment: String,
+        date_return_to_evaluator: Date,
+        date_of_submission_of_edited_draft_to_SL: Date,
+        action_taken: String,
+        date_approved_by_SL: Date,
+        date_submitted_OIC_LSSC_review: Date,
+        action_taken_OIC_LSSC: String,
+        comments: String,
+        date_forward_to_evaluator: Date,
+        final_action: String,
+        reason_for_remanding: String,
+        date_released_for_mailing: Date,
+        date_finalized: Date,
+        date_forwarded_for_signature_SL: Date,
+        date_submitted_for_signature_OIC_LSSC: Date,
+
+
+
+    }],
+
+    // APPROVAL
+
+    approval:[{
+        date_submitted_to_docketing_officer: Date,
+        date_docketed: Date,
+        case_number: 0,
+        date_forwarded_to_IS_for_finalization: Date,
+        date_of_IS_finalized: Date
+    }]
+
 })
 
 module.exports = mongoose.model("dockets", schema);
