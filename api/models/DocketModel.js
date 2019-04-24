@@ -8,7 +8,7 @@ var DocketModelSchema = new mongoose.Schema({
     // modified_by: String,
     // modified_date: Date,
 
-    docket: [{
+   
         user: String,
         date_created: Date,
 
@@ -24,15 +24,17 @@ var DocketModelSchema = new mongoose.Schema({
         rov_date: Date,
         rov_date_receive: Date,
         rov_center_involved: String,
+        complainant_name: String,
+        complaint_cause: String,
         establishment_compliant: String,
         establishment_name: String,
         establishment_owner: String,
         establishment_classification: String,
-        pharmacist_radiologist: String,
-        class_of_product: String,
-        establishment_address_region: String,
-        establishment_address_province: String,
-        establishment_address_city: String,
+        establishment_pharmacist: String,
+        product_classification: String,
+        establishment_region: String,
+        establishment_province: String,
+        establishment_city: String,
         establishment_address: String,
         documents: {},
 
@@ -46,7 +48,7 @@ var DocketModelSchema = new mongoose.Schema({
         docket_number: 0,
         date_docketed: Date,
         date_issued: Date,
-        products_involved: String,
+        product_involved: String,
         laws_violated: String,
         lto: String,
         lto_number: String,
@@ -61,7 +63,7 @@ var DocketModelSchema = new mongoose.Schema({
         // evaluation = 0
         // review = 1
         // approval = 2  
-    }],
+  
 
     activities:[{
         task: Number,
