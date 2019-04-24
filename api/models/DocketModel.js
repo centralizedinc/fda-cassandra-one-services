@@ -37,9 +37,8 @@ var DocketModelSchema = new mongoose.Schema({
         establishment_city: String,
         establishment_address: String,
         documents: {},
-
-        // next page
-
+        complaint_name:String,
+        complaint_cause:String,
         date_decked: Date,
         IS_evaluator: String,
         date_evaluated: Date,
@@ -51,8 +50,8 @@ var DocketModelSchema = new mongoose.Schema({
         product_involved: String,
         laws_violated: String,
         lto: String,
-        lto_number: String,
-        lto_validity: Date,
+        license_no: String,
+        license_validity: Date,
         center_involved: String,
         violation_product: String,
         violation_qualified_personnel: String,
