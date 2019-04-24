@@ -30,7 +30,7 @@ var schema = new mongoose.Schema({
     establishment_address_province: String,
     establishment_address_city: String,
     establishment_address: String,
-    documents: File,
+    documents: {},
 
     // next page
 

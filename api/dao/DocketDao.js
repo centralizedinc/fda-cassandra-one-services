@@ -1,7 +1,7 @@
 const model = require('../models/DocketModel')
 
 
-class DocketModel{
+class DocketDao{
     /**
      * @returns {Promise}
      * @param {DocketModel} docket_details 
@@ -36,4 +36,4 @@ class DocketModel{
 }
 
 
-module.exports = DocketModel;
+module.exports = DocketDao;
