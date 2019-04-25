@@ -8,7 +8,7 @@ var CaseModelSchema = new mongoose.Schema({
     // modified_date: Date,
 
     // CASE MODEL
-    case:[{
+
         case_number: 0,
         user: String,
         date_created: Date,
@@ -26,8 +26,10 @@ var CaseModelSchema = new mongoose.Schema({
         // date_serve_or_executed: Date,
         // date_PER_receive: Date,
         execution_details_if_served: String,
-        execution_details_if_not_served: String  
-    }]
+        execution_details_if_not_served: String,
+
+        status: Number,
+    
 })
 
 module.exports = mongoose.model("cases", CaseModelSchema);
