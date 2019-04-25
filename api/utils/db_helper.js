@@ -11,6 +11,7 @@ var ApplicationSettings = require('./ApplicationSettings')
 
 function connect() {
     mongoose.connect(constants_helper.mongodb_uri, {
+            useCreateIndex: true,
             useNewUrlParser: true ,
             promiseLibrary: require('bluebird')
         })

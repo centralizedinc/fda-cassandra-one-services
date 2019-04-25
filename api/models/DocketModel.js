@@ -1,6 +1,7 @@
 var mongoose = require("mongoose");
+const counter = require("./counters")
 
-var DocketModelSchema = new mongoose.Schema({
+var schema = new mongoose.Schema({
     // docket_no: String,
     // docket_tracking_no: String,
     // created_by: String,
@@ -113,4 +114,18 @@ var DocketModelSchema = new mongoose.Schema({
     }],
 })
 
-module.exports = mongoose.model("dockets", DocketModelSchema);
+schema.pre('save', function (next) {
+    var docket = this;
+    counter.getSequence("dockets")
+    .then(result=>{              
+        docket.dtn = result.count 
+        next();
+    })
+    .catch(error=>{
+        console.error(error)
+        next();
+    })
+    
+});
+
+module.exports = mongoose.model("dockets", schema);
