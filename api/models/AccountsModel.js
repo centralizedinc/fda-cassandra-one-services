@@ -4,7 +4,7 @@ var mongoose = require("mongoose");
 // const beautifyUnique = require('mongoose-beautiful-unique-validation');
 var bcrypt = require("bcrypt-nodejs");
 var jwt = require("jsonwebtoken")
-var autoIncrement = require('mongoose-auto-increment-reworked').MongooseAutoIncrementID;
+// var autoIncrement = require('mongoose-auto-increment-reworked').MongooseAutoIncrementID;
 
 var AccessKeys = require("../utils/key");
 var validation = require('../utils/validation_helper');
@@ -261,25 +261,25 @@ AccountsModelSchema.methods.verifyPassword = function (password, cb) {
     })
 }
 
-const options = {
-    field: 'auto_id', // auto_id will have an auto-incrementing value
-    incrementBy: 1, // incremented by 2 every time
-    nextCount: false, // Not interested in getting the next count - don't add it to the model
-    // resetCount: 'reset', // The model and each document can now reset the counter via the reset() method
-    startAt: 0, // Start the counter at 1000
-    unique: false // Don't add a unique index
-};
+// const options = {
+//     field: 'auto_id', // auto_id will have an auto-incrementing value
+//     incrementBy: 1, // incremented by 2 every time
+//     nextCount: false, // Not interested in getting the next count - don't add it to the model
+//     // resetCount: 'reset', // The model and each document can now reset the counter via the reset() method
+//     startAt: 0, // Start the counter at 1000
+//     unique: false // Don't add a unique index
+// };
 
 
-const plugin = new autoIncrement(AccountsModelSchema, 'accounts', options);
+// const plugin = new autoIncrement(AccountsModelSchema, 'accounts', options);
 
-plugin.applyPlugin()
-    .then(() => {
-        console.log("############### init plugin")
-    })
-    .catch(e => {
-        // Plugin failed to initialise
-        console.log("############### init failed: " + e);
-    });
+// plugin.applyPlugin()
+//     .then(() => {
+//         console.log("############### init plugin")
+//     })
+//     .catch(e => {
+//         // Plugin failed to initialise
+//         console.log("############### init failed: " + e);
+//     });
 
 module.exports = mongoose.model("accounts", AccountsModelSchema);
