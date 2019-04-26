@@ -28,7 +28,7 @@ var CaseModelSchema = new mongoose.Schema({
         execution_details_if_served: String,
         execution_details_if_not_served: String,
 
-        status: Number,
+        current_status: Number,
     
 })
 

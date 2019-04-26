@@ -58,21 +58,29 @@ var schema = new mongoose.Schema({
         violation_qualified_personnel: String,
         violation_others: String,
 
-        current_status: Number,
-        // task
+        current_status: {
+            type: Number,
+            default: 0
+        },
+
         // evaluation = 0
         // review = 1
         // approval = 2  
   
 
     activities:[{
-        type: String,
+        dtn: 0,
+        task: String,
         //
         //docket
         //case
         //mr
 
-        task: Number,
+        current_status: Number,
+        //evaluation = 0
+        // review = 1
+        // approval = 2
+
         user: String,
         date_created: Date,
         date_forwarded: Date,
