@@ -66,6 +66,12 @@ var schema = new mongoose.Schema({
   
 
     activities:[{
+        type: String,
+        //
+        //docket
+        //case
+        //mr
+
         task: Number,
         user: String,
         date_created: Date,
