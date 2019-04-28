@@ -30,6 +30,18 @@ router.route('/')
     })
 })
 
+router.route('/status/:status')
+.get((req, res)=>{
+    dao.findDocketByStatus(req.params.status)
+    .then(results=>{
+        response_helper.sendGetResponse(req, res, results, null, response_helper.DOC, "10");
+    })
+    .catch(err=>{
+        response_helper.sendGetResponse(req, res, null, err, response_helper.DOC, "10");
+    })
+})
+
+
 router.route('/:id')
 /**
  * GET Docket by Id

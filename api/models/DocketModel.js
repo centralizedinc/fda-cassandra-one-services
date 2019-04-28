@@ -37,7 +37,7 @@ var schema = new mongoose.Schema({
         establishment_province: String,
         establishment_city: String,
         establishment_address: String,
-        documents: {},
+        documents: [],
         complainant_name:String,
         complaint_cause:String,
         date_decked: Date,
@@ -46,7 +46,10 @@ var schema = new mongoose.Schema({
         date_forwarded_to_SL: Date,
         action_taken_by_SL: String,
         docket_number: 0,
-        date_docketed: Date,
+        date_docketed: {
+            type: Date,
+            default: new Date()
+        },
         date_issued: Date,
         product_involved: String,
         laws_violated: String,
@@ -66,23 +69,31 @@ var schema = new mongoose.Schema({
         // evaluation = 0
         // review = 1
         // approval = 2  
-  
+        stage: {
+            type: Number,
+            default: 0
+        },
 
     activities:[{
-        dtn: 0,
-        task: String,
+        stage: Number,
         //
         //docket
         //case
         //mr
 
-        current_status: Number,
+        status: Number,
         //evaluation = 0
         // review = 1
         // approval = 2
+        // finalization = 3
+        // execution = 4
+        // creation/docketing = 5
 
         user: String,
-        date_created: Date,
+        date_created: {
+            type: Number,
+            default: 0
+        },
         date_forwarded: Date,
         modified_by: String,
         date_modified: Date,
@@ -120,7 +131,7 @@ var schema = new mongoose.Schema({
 
         // date_submitted_to_docketing_officer: Date,
         // date_docketed: Date,
-        case_number: 0,
+        
         // date_forwarded_to_IS_for_finalization: Date,
         // date_of_IS_finalized: Date,
 
@@ -142,4 +153,4 @@ schema.pre('save', function (next) {
     
 });
 
-module.exports = mongoose.model("dockets", schema);
+module.exports = mongoose.model("case_dockets", schema);
