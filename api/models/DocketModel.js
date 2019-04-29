@@ -91,7 +91,7 @@ var schema = new mongoose.Schema({
         // creation/docketing = 5
 
         user: String,
-        date_created: new Date,
+        date_created: new Date(),
         date_forwarded: Date,
         modified_by: String,
         date_modified: Date,
