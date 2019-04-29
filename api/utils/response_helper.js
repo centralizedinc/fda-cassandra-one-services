@@ -37,6 +37,10 @@ var routers = {
     SESSION: {
         code: 'SSN',
         name: 'Session'
+    },
+    ROLE: {
+        code: 'ROL',
+        name: 'Roles'
     }
 }
 

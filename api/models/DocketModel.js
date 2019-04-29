@@ -107,6 +107,8 @@ var schema = new mongoose.Schema({
 
         // Review
 
+        case_number: 0,
+
         // date_forwarded_to_SL: Date,
         action_taken_by_SL: String,
         comment: String,
