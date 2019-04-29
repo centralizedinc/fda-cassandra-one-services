@@ -26,6 +26,16 @@ router.route('/')
     })
 })
 
+.post((req, res)=>{
+    dao.save(req.body)
+    .then(results=>{
+        response_helper.sendPostResponse(req, res,results, null, response_helper.REF, "11");
+    })
+    .catch(error =>{
+        response_helper.sendPostResponse(req, res, null, error, response_helper.REF, "11");
+    })
+})
+
 router.route('/all')
 .get((req, res)=>{
     dao.findReferences()
