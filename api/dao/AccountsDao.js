@@ -4,6 +4,8 @@ var AccountsModel = require("../models/AccountsModel");
 // var axios = require("axios");
 var ApplicationSettings = require("../utils/ApplicationSettings");
 
+
+
 // Get Accounts
 function getAccounts(cb_accounts) {
   AccountsModel.find((err, accounts) => {
@@ -73,11 +75,11 @@ function modifyAccount(conditions, modified_account, cb_account) {
   );
 }
 
-function modifyAccountById(id, modified_account, cb_account) {
-  AccountsModel.findByIdAndUpdate(id, modified_account, (err, account) => {
-    cb_account(err, account);
-  });
+function modifyAccountById(id, modified_account) {
+  return AccountsModel.findByIdAndUpdate(id, modified_account, {new:true}).exec();
 }
+
+
 
 /**
  * @description findOneAndUpdate pre-hook cannot check if the password is modified,
@@ -267,7 +269,18 @@ function getAccountsInfo(fields, cb) {
   })
 }
 
+function findAll(){
+  return AccountsModel.find().exec()
+}
+
+
+function add(account){
+  
+  return (new AccountsModel(account)).save()
+}
+
 module.exports = {
+  add,
   getAccounts,
   getAccountsByConditions,
   getAccountByConditions,
@@ -281,5 +294,6 @@ module.exports = {
   forgotPassword,
   findAccountId,
   updatePassword,
-  getAccountsInfo
+  getAccountsInfo,
+  findAll
 };

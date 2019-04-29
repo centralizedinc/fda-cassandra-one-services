@@ -15,6 +15,10 @@ class ReferenceDao {
     static findReferences(){
        return model.find().exec()
     }
+
+    static save(item){
+        return (new model(item)).save()
+    }
 }
 
 
