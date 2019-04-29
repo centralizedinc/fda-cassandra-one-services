@@ -14,6 +14,7 @@ var validation = require('../utils/validation_helper');
 var AccountsModelSchema = new mongoose.Schema(
     // schema.account
     {
+        role:String,
         username: {
             type: String,
             unique: true,
