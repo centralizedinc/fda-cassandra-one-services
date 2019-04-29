@@ -3,15 +3,22 @@ const multerS3 = require("multer-s3");
 const aws = require("aws-sdk");
 const applicationSettings = require('./ApplicationSettings')
 
-aws.config.update({
-  secretAccessKey: applicationSettings.getValue('AWS_SECRET_ACCESS_KEY'),
-  accessKeyId: applicationSettings.getValue('AWS_ACCESS_KEY_ID'),
-  region: applicationSettings.getValue('AWS_REGION') // region of your bucket
-});
-
-const s3 = new aws.S3();
+var s3 = {};
 
 class Uploader {
+
+  static setKeys(){
+    console.log("AWS_SECRET_ACCESS_KEY:" + applicationSettings.getValue('AWS_SECRET_ACCESS_KEY'))
+    console.log("AWS_ACCESS_KEY_ID:" + applicationSettings.getValue('AWS_ACCESS_KEY_ID'))
+    aws.config.update({
+      secretAccessKey: applicationSettings.getValue('AWS_SECRET_ACCESS_KEY'),
+      accessKeyId: applicationSettings.getValue('AWS_ACCESS_KEY_ID'),
+      region: applicationSettings.getValue('AWS_REGION') // region of your bucket
+    });
+
+    s3 = new aws.S3();
+  }
+
   static uploadAvatar(account_id) {
     const upload = multer({
       storage: multerS3({

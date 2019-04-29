@@ -9,6 +9,8 @@ mongoose.Promise = require('bluebird');
 var SettingsDao = require('../dao/SettingsDao')
 var ApplicationSettings = require('./ApplicationSettings')
 
+const uploader = require('./uploader')
+
 function connect() {
     mongoose.connect(constants_helper.mongodb_uri, {
             useCreateIndex: true,
@@ -20,6 +22,7 @@ function connect() {
             SettingsDao.getSettings((err, params)=>{
                 ApplicationSettings.setApplicationVariables(params)
                 console.log('Initialized Application Settings: ' + JSON.stringify(ApplicationSettings.getApplicationVariables()));
+                uploader.setKeys()
             })
         })
         .catch((err) => console.error(err));
