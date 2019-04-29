@@ -26,6 +26,17 @@ router.route('/')
     })
 })
 
+router.route('/all')
+.get((req, res)=>{
+    dao.findReferences()
+    .then(results=>{
+        response_helper.sendGetResponse(req, res, results, null, response_helper.REF, "11");
+    })
+    .catch(error =>{
+        response_helper.sendGetResponse(req, res, null, error, response_helper.REF, "11");
+    })
+})
+
 router.route('/:collection_name')
 /**
  * GET reference data by table
