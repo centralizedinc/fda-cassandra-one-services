@@ -65,10 +65,11 @@ var schema = new mongoose.Schema({
             type: Number,
             default: 0
         },
-
         // evaluation = 0
         // review = 1
         // approval = 2  
+        // finalization = 3
+        // execution = 4
         stage: {
             type: Number,
             default: 0
@@ -77,9 +78,9 @@ var schema = new mongoose.Schema({
     activities:[{
         stage: Number,
         //
-        //docket
-        //case
-        //mr
+        //docket = 0
+        //case = 1
+        //mr = 2
 
         status: Number,
         //evaluation = 0
@@ -90,10 +91,7 @@ var schema = new mongoose.Schema({
         // creation/docketing = 5
 
         user: String,
-        date_created: {
-            type: Number,
-            default: 0
-        },
+        date_created: new Date,
         date_forwarded: Date,
         modified_by: String,
         date_modified: Date,
