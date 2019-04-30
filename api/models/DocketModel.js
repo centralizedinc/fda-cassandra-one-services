@@ -90,7 +90,13 @@ var schema = new mongoose.Schema({
         // execution = 4
         // creation/docketing = 5
 
-        user: String,
+        user:{
+            username: String,
+            first_name: String,
+            last_name: String,
+            middle_name: String,
+            email: String
+        },
         date_created: {
         type: Date,
         default: new Date()
