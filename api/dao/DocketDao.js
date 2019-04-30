@@ -41,6 +41,13 @@ class DocketDao {
         }).exec()
     }
 
+    /**     
+     * @returns {Promise}
+     */
+    static findAllActivities() {
+        return model.find({}).select('dtn activities').exec()
+    }
+
     /**
      * @param {String} id 
      * @param {DocketModel} docket_details 

@@ -1,5 +1,6 @@
 var mongoose = require("mongoose");
 const counter = require("./counters")
+var ActivitiesDao = require('../dao/ActivitiesDao')
 
 var schema = new mongoose.Schema({
     // docket_no: String,
@@ -145,6 +146,9 @@ var schema = new mongoose.Schema({
 
         decision: Boolean
     }],
+    case_number: {
+        type: String
+    }
 })
 
 schema.pre('save', function (next) {
@@ -152,13 +156,48 @@ schema.pre('save', function (next) {
     counter.getSequence("dockets")
         .then(result => {
             docket.dtn = result.count
+            var details = {
+                dtn: docket.dtn,
+                case_number: docket.case_number,
+                stage: docket.activities[0].stage,
+                status: docket.activities[0].status,
+                user: docket.activities[0].user,
+                date_created: new Date()
+            }
+            return ActivitiesDao.createActivities(details)
+        })
+        .then(result => {
             next();
         })
         .catch(error => {
             console.error(error)
             next();
         })
+});
 
+schema.pre('findOneAndUpdate', function (next) {
+    this.options.new = true;
+    var docket = this._update
+    var sorted_activities = docket.activities.sort(function (a, b) {
+        return new Date(b.date_created) - new Date(a.date_created)
+    })
+    var latest_activity = sorted_activities && sorted_activities.length ? sorted_activities[sorted_activities.length - 1] : {}
+
+    var details = {
+        dtn: docket.dtn,
+        case_number: docket.case_number,
+        stage: latest_activity.stage,
+        status: latest_activity.status,
+        user: latest_activity.user,
+        date_created: new Date()
+    }
+    ActivitiesDao.createActivities(details)
+        .then((result) => {
+            next();
+        }).catch((err) => {
+            console.error(error)
+            next();
+        });
 });
 
 module.exports = mongoose.model("case_dockets", schema);
