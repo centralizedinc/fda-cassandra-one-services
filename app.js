@@ -26,5 +26,6 @@ app.use("/references", require('./api/routes/reference_router'));
 app.use("/roles", require('./api/routes/roles_router'));
 app.use("/settings", require('./api/routes/settings_router'));
 app.use("/upload", require('./api/routes/upload_router'));
+app.use("/analytics", require('./api/routes/analytics_router'));
 
 module.exports = app;

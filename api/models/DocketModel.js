@@ -9,73 +9,78 @@ var schema = new mongoose.Schema({
     // modified_by: String,
     // modified_date: Date,
 
-   
-        user: String,
-        date_created: Date,
 
-        //new docket
+    user: String,
+    date_created: Date,
 
-        dtn: 0,
-        cluster: String,
-        region: String,
-        area: String,
-        inspection_date: Date,
-        inspector: String,
-        inspection_purpose: String,
-        rov_date: Date,
-        rov_date_receive: Date,
-        rov_center_involved: String,
-        complainant_name: String,
-        complaint_cause: String,
-        establishment_compliant: String,
-        establishment_name: String,
-        establishment_owner: String,
-        establishment_classification: String,
-        pharmacist: String,
-        product_classification: String,
-        establishment_region: String,
-        establishment_province: String,
-        establishment_city: String,
-        establishment_address: String,
-        documents: [],
-        complainant_name:String,
-        complaint_cause:String,
-        date_decked: Date,
-        IS_evaluator: String,
-        date_evaluated: Date,
-        date_forwarded_to_SL: Date,
-        action_taken_by_SL: String,
-        docket_number: 0,
-        date_docketed: {
-            type: Date,
-            default: new Date()
-        },
-        date_issued: Date,
-        product_involved: String,
-        laws_violated: String,
-        lto: String,
-        license_no: String,
-        license_validity: Date,
-        center: String,
-        violation_product: String,
-        violation_qualified_personnel: String,
-        violation_others: String,
+    //new docket
 
-        current_status: {
-            type: Number,
-            default: 0
-        },
-        // evaluation = 0
-        // review = 1
-        // approval = 2  
-        // finalization = 3
-        // execution = 4
-        stage: {
-            type: Number,
-            default: 0
-        },
+    dtn: 0,
+    cluster: String,
+    region: String,
+    area: String,
+    inspection_date: Date,
+    inspector: String,
+    inspection_purpose: String,
+    rov_date: Date,
+    rov_date_receive: Date,
+    rov_center_involved: String,
+    complainant_name: String,
+    complaint_cause: String,
+    establishment_compliant: String,
+    establishment_name: String,
+    establishment_owner: String,
+    establishment_classification: String,
+    pharmacist: String,
+    product_classification: String,
+    establishment_region: String,
+    establishment_province: String,
+    establishment_city: String,
+    establishment_address: String,
+    documents: [],
+    complainant_name: String,
+    complaint_cause: String,
+    date_decked: Date,
+    IS_evaluator: String,
+    date_evaluated: Date,
+    date_forwarded_to_SL: Date,
+    action_taken_by_SL: String,
+    docket_number: 0,
+    date_docketed: {
+        type: Date,
+        default: new Date()
+    },
+    date_issued: Date,
+    product_involved: String,
+    laws_violated: String,
+    lto: String,
+    license_no: String,
+    license_validity: Date,
+    center: String,
+    violation_product: String,
+    violation_qualified_personnel: String,
+    violation_others: String,
 
-    activities:[{
+    current_status: {
+        type: Number,
+        default: 0
+    },
+    // evaluation = 0
+    // review = 1
+    // approval = 2  
+    // finalization = 3
+    // execution = 4
+    stage: {
+        type: Number,
+        default: 0
+        /**
+         * 0 - Docket
+         * 1 - Case
+         * 2 - Appeal
+         */
+    },
+
+    activities: [{
         stage: Number,
         //
         //docket = 0
@@ -92,8 +97,8 @@ var schema = new mongoose.Schema({
 
         user: String,
         date_created: {
-        type: Date,
-        default: new Date()
+            type: Date,
+            default: new Date()
         },
         date_forwarded: Date,
         modified_by: String,
@@ -134,7 +139,7 @@ var schema = new mongoose.Schema({
 
         // date_submitted_to_docketing_officer: Date,
         // date_docketed: Date,
-        
+
         // date_forwarded_to_IS_for_finalization: Date,
         // date_of_IS_finalized: Date,
 
@@ -145,15 +150,15 @@ var schema = new mongoose.Schema({
 schema.pre('save', function (next) {
     var docket = this;
     counter.getSequence("dockets")
-    .then(result=>{              
-        docket.dtn = result.count 
-        next();
-    })
-    .catch(error=>{
-        console.error(error)
-        next();
-    })
-    
+        .then(result => {
+            docket.dtn = result.count
+            next();
+        })
+        .catch(error => {
+            console.error(error)
+            next();
+        })
+
 });
 
 module.exports = mongoose.model("case_dockets", schema);
