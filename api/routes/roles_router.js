@@ -43,4 +43,16 @@ router.route('/:name')
     })
 })
 
+.post((req, res)=>{
+    dao.update(req.body)
+    .then(results=>{
+        response_helper.sendPostResponse(req, res, results, null, response_helper.ROLE, "10");
+    })
+    .catch(error =>{
+        response_helper.sendPostResponse(req, res, null, error, response_helper.ROLE, "10");
+    })
+})
+
+
+
 module.exports = router;
