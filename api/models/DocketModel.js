@@ -1,5 +1,6 @@
 var mongoose = require("mongoose");
 const counter = require("./counters")
+var ActivitiesDao = require('../dao/ActivitiesDao')
 
 var schema = new mongoose.Schema({
     // docket_no: String,
@@ -9,77 +10,83 @@ var schema = new mongoose.Schema({
     // modified_by: String,
     // modified_date: Date,
 
-   
-        user: String,
-        date_created: Date,
 
-        //new docket
+    user: String,
+    date_created: Date,
 
-        dtn: 0,
-        cluster: String,
-        region: String,
-        area: String,
-        inspection_date: Date,
-        inspector: String,
-        inspection_purpose: String,
-        rov_date: Date,
-        rov_date_receive: Date,
-        rov_center_involved: String,
-        complainant_name: String,
-        complaint_cause: String,
-        establishment_compliant: String,
-        establishment_name: String,
-        establishment_owner: String,
-        establishment_classification: String,
-        pharmacist: String,
-        product_classification: String,
-        establishment_region: String,
-        establishment_province: String,
-        establishment_city: String,
-        establishment_address: String,
-        documents: [],
-        complainant_name:String,
-        complaint_cause:String,
-        date_decked: Date,
-        IS_evaluator: String,
-        date_evaluated: Date,
-        date_forwarded_to_SL: Date,
-        action_taken_by_SL: String,
-        docket_number: 0,
-        date_docketed: {
-            type: Date,
-            default: new Date()
-        },
-        date_issued: Date,
-        product_involved: String,
-        laws_violated: String,
-        lto: String,
-        license_no: String,
-        license_validity: Date,
-        center: String,
-        violation_product: String,
-        violation_qualified_personnel: String,
-        violation_others: String,
+    //new docket
 
-        current_status: {
-            type: Number,
-            default: 0
-        },
+    dtn: 0,
+    cluster: String,
+    region: String,
+    area: String,
+    inspection_date: Date,
+    inspector: String,
+    inspection_purpose: String,
+    rov_date: Date,
+    rov_date_receive: Date,
+    rov_center_involved: String,
+    complainant_name: String,
+    complaint_cause: String,
+    establishment_compliant: String,
+    establishment_name: String,
+    establishment_owner: String,
+    establishment_classification: String,
+    pharmacist: String,
+    product_classification: String,
+    establishment_region: String,
+    establishment_province: String,
+    establishment_city: String,
+    establishment_address: String,
+    documents: [],
+    complainant_name: String,
+    complaint_cause: String,
+    date_decked: Date,
+    IS_evaluator: String,
+    date_evaluated: Date,
+    date_forwarded_to_SL: Date,
+    action_taken_by_SL: String,
+    docket_number: 0,
+    date_docketed: {
+        type: Date,
+        default: new Date()
+    },
+    date_issued: Date,
+    product_involved: String,
+    laws_violated: String,
+    lto: String,
+    license_no: String,
+    license_validity: Date,
+    center: String,
+    violation_product: String,
+    violation_qualified_personnel: String,
+    violation_others: String,
 
-        // evaluation = 0
-        // review = 1
-        // approval = 2  
-        stage: {
-            type: Number,
-            default: 0
-        },
+    current_status: {
+        type: Number,
+        default: 0
+    },
+    // evaluation = 0
+    // review = 1
+    // approval = 2  
+    // finalization = 3
+    // execution = 4
+    stage: {
+        type: Number,
+        default: 0
+        /**
+         * 0 - Docket
+         * 1 - Case
+         * 2 - Appeal
+         */
+    },
 
-    activities:[{
+    activities: [{
         stage: Number,
         //
-        //docket
-        //case
-        //mr
+        //docket = 0
+        //case = 1
+        //mr = 2
 
         status: Number,
         //evaluation = 0
@@ -89,10 +96,16 @@ var schema = new mongoose.Schema({
         // execution = 4
         // creation/docketing = 5
 
-        user: String,
+        user:{
+            username: String,
+            first_name: String,
+            last_name: String,
+            middle_name: String,
+            email: String
+        },
         date_created: {
-            type: Number,
-            default: 0
+            type: Date,
+            default: new Date()
         },
         date_forwarded: Date,
         modified_by: String,
@@ -133,26 +146,64 @@ var schema = new mongoose.Schema({
 
         // date_submitted_to_docketing_officer: Date,
         // date_docketed: Date,
-        
+
         // date_forwarded_to_IS_for_finalization: Date,
         // date_of_IS_finalized: Date,
 
         decision: Boolean
     }],
+    case_number: {
+        type: String
+    }
 })
 
 schema.pre('save', function (next) {
     var docket = this;
     counter.getSequence("dockets")
-    .then(result=>{              
-        docket.dtn = result.count 
-        next();
+        .then(result => {
+            docket.dtn = result.count
+            var details = {
+                dtn: docket.dtn,
+                case_number: docket.case_number,
+                stage: docket.activities[0].stage,
+                status: docket.activities[0].status,
+                user: docket.activities[0].user,
+                date_created: new Date()
+            }
+            return ActivitiesDao.createActivities(details)
+        })
+        .then(result => {
+            next();
+        })
+        .catch(error => {
+            console.error(error)
+            next();
+        })
+});
+
+schema.pre('findOneAndUpdate', function (next) {
+    this.options.new = true;
+    var docket = this._update
+    var sorted_activities = docket.activities.sort(function (a, b) {
+        return new Date(b.date_created) - new Date(a.date_created)
     })
-    .catch(error=>{
-        console.error(error)
-        next();
-    })
-    
+    var latest_activity = sorted_activities && sorted_activities.length ? sorted_activities[sorted_activities.length - 1] : {}
+
+    var details = {
+        dtn: docket.dtn,
+        case_number: docket.case_number,
+        stage: latest_activity.stage,
+        status: latest_activity.status,
+        user: latest_activity.user,
+        date_created: new Date()
+    }
+    ActivitiesDao.createActivities(details)
+        .then((result) => {
+            next();
+        }).catch((err) => {
+            console.error(error)
+            next();
+        });
 });
 
 module.exports = mongoose.model("case_dockets", schema);
