@@ -81,6 +81,9 @@ var schema = new mongoose.Schema({
          */
     },
 
+    assigned_to:String,
+    assigned_date:Date,
+    assigned_by:String,
     activities: [{
         stage: Number,
         //
