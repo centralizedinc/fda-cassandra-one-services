@@ -87,7 +87,7 @@ var schema = new mongoose.Schema({
         //docket = 0
         //case = 1
         //mr = 2
-
+        documents: [],
         status: Number,
         //evaluation = 0
         // review = 1
