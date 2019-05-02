@@ -81,9 +81,9 @@ var schema = new mongoose.Schema({
          */
     },
 
-    assigned_to:String,
-    assigned_date:Date,
-    assigned_by:String,
+    assigned_to: String,
+    assigned_date: Date,
+    assigned_by: String,
     activities: [{
         stage: Number,
         //
@@ -99,7 +99,7 @@ var schema = new mongoose.Schema({
         // execution = 4
         // creation/docketing = 5
 
-        user:{
+        user: {
             username: String,
             first_name: String,
             last_name: String,
@@ -165,17 +165,17 @@ schema.pre('save', function (next) {
     counter.getSequence("dockets")
         .then(result => {
             docket.dtn = result.count
-            var details = {
-                dtn: docket.dtn,
-                case_number: docket.case_number,
-                stage: docket.activities[0].stage,
-                status: docket.activities[0].status,
-                user: docket.activities[0].user,
-                date_created: new Date()
-            }
-            return ActivitiesDao.createActivities(details)
-        })
-        .then(result => {
+            //     var details = {
+            //         dtn: docket.dtn,
+            //         case_number: docket.case_number,
+            //         stage: docket.activities[0].stage,
+            //         status: docket.activities[0].status,
+            //         user: docket.activities[0].user,
+            //         date_created: new Date()
+            //     }
+            //     return ActivitiesDao.createActivities(details)
+            // })
+            // .then(result => {
             next();
         })
         .catch(error => {

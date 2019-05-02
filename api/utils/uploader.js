@@ -7,9 +7,10 @@ var s3 = {};
 
 class Uploader {
 
-  static setKeys(){
+  static setKeys() {
     console.log("AWS_SECRET_ACCESS_KEY:" + applicationSettings.getValue('AWS_SECRET_ACCESS_KEY'))
     console.log("AWS_ACCESS_KEY_ID:" + applicationSettings.getValue('AWS_ACCESS_KEY_ID'))
+    console.log("AWS_REGION:" + applicationSettings.getValue('AWS_REGION'))
     aws.config.update({
       secretAccessKey: applicationSettings.getValue('AWS_SECRET_ACCESS_KEY'),
       accessKeyId: applicationSettings.getValue('AWS_ACCESS_KEY_ID'),
@@ -26,11 +27,13 @@ class Uploader {
         bucket: "fda-cms",
         acl: "public-read",
         contentType: multerS3.AUTO_CONTENT_TYPE,
-        contentDisposition:'inline',
-        metadata: function(req, file, cb) {
-          cb(null, { fieldName: file.fieldname });
+        contentDisposition: 'inline',
+        metadata: function (req, file, cb) {
+          cb(null, {
+            fieldName: file.fieldname
+          });
         },
-        key: function(req, file, cb) {
+        key: function (req, file, cb) {
           cb(null, "avatar/" + account_id + "/" + Date.now().toString());
         }
       })
@@ -43,18 +46,21 @@ class Uploader {
    * 
    * @param {avatar_key} key 
    */
-  static deleteAvatar(key){
-    return new Promise((resolve, reject)=>{
-        var params = { Bucket: 'fda-cms', Key: key };
-        s3.deleteObject(params, (err, data)=>{
-            if(err){
-              console.error(err);
-              reject(err)              
-            }else{
-              resolve(data)
-            }
-        })
-    })    
+  static deleteAvatar(key) {
+    return new Promise((resolve, reject) => {
+      var params = {
+        Bucket: 'fda-cms',
+        Key: key
+      };
+      s3.deleteObject(params, (err, data) => {
+        if (err) {
+          console.error(err);
+          reject(err)
+        } else {
+          resolve(data)
+        }
+      })
+    })
   }
 
 
@@ -65,11 +71,13 @@ class Uploader {
         bucket: "fda-cms",
         acl: "public-read",
         contentType: multerS3.AUTO_CONTENT_TYPE,
-        contentDisposition:'inline',
-        metadata: function(req, file, cb) {
-          cb(null, { fieldName: file.fieldname });
+        contentDisposition: 'inline',
+        metadata: function (req, file, cb) {
+          cb(null, {
+            fieldName: file.fieldname
+          });
         },
-        key: function(req, file, cb) {
+        key: function (req, file, cb) {
           cb(null, "upload/" + case_no + "/" + Date.now().toString());
         }
       })
@@ -81,27 +89,29 @@ class Uploader {
    * 
    * @param {avatar_key} key 
    */
-  static deleteDocuments(keys){
-    return new Promise((resolve, reject)=>{
-        var params = { 
-            Bucket: 'fda-cms', 
-            Delete: {
-                Objects: [], 
-                Quiet: false
-               }
-        };
-        keys.forEach(element => {
-            params.Delete.Ojects.push({Key: element.key})
-        });
-        s3.deleteObjects(params, (err, data)=>{
-            if(err){
-              console.error(err);
-              reject(err)              
-            }else{
-              resolve(data)
-            }
+  static deleteDocuments(keys) {
+    return new Promise((resolve, reject) => {
+      var params = {
+        Bucket: 'fda-cms',
+        Delete: {
+          Objects: [],
+          Quiet: false
+        }
+      };
+      keys.forEach(element => {
+        params.Delete.Ojects.push({
+          Key: element.key
         })
-    })    
+      });
+      s3.deleteObjects(params, (err, data) => {
+        if (err) {
+          console.error(err);
+          reject(err)
+        } else {
+          resolve(data)
+        }
+      })
+    })
   }
 }
 
