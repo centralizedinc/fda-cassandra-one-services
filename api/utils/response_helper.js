@@ -41,6 +41,14 @@ var routers = {
     ROLE: {
         code: 'ROL',
         name: 'Roles'
+    },
+    ANALYTICS: {
+        code: 'ATC',
+        name: 'Analytics'
+    },
+    COMMENTS: {
+        code: 'COM',
+        name: 'Comments'
     }
 }
 
