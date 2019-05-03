@@ -31,6 +31,12 @@ class DocketDao {
         }).exec()
     }
 
+    static findDocketByUsername(username) {
+        return model.find({
+            'user.username': username
+        }).exec()
+    }
+
     /**
      * 
      * @param {Number} stage 

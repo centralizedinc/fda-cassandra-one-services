@@ -11,7 +11,7 @@ var schema = new mongoose.Schema({
     // modified_date: Date,
 
 
-    user: String,
+    user: {},
     date_created: Date,
 
     //new docket
